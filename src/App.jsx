@@ -37,6 +37,7 @@ function App() {
     if(gasto.id){
       const gastosActualizados = gastos.map(gastoState => gastoState.id === gasto.id ? gasto : gastoState)
       setGastos(gastosActualizados)
+      setGastoEditar({})
     }else{
       gasto.id = generarId()
       gasto.fecha = Date.now()
@@ -49,6 +50,12 @@ function App() {
     }, 500);
   }
 
+  const eliminarGasto = id => {
+    const gastosActualizados = gastos.filter(gasto => gasto.id !== id)
+
+    setGastos(gastosActualizados)
+  }
+
   return (
     <div className={modal ? 'fijar' : ''}>
       <Header 
@@ -57,6 +64,7 @@ function App() {
         setPresupuesto={setPresupuesto}
         isValidPresupuesto={isValidPresupuesto}
         setIsValidPresupuesto={setIsValidPresupuesto}
+        setGastoEditar={setGastoEditar}
       />
       {isValidPresupuesto && (
         <>
@@ -64,6 +72,7 @@ function App() {
             <ListadoGastos 
               gastos={gastos}
               setGastoEditar={setGastoEditar}
+              eliminarGasto={eliminarGasto}
             />
           </main>
           <div className='nuevo-gasto'>
